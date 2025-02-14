@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class FortuneTellerFrame extends JFrame
 {
@@ -43,9 +44,7 @@ public class FortuneTellerFrame extends JFrame
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        add(topPanel);
-        add(middlePanel);
-        add(bottomPanel);
+        add(mainPanel);
 
         fortunes.add(new Fortune("You'll have great day today! Give a stranger a compliment along the way and your luck with money will improve!"));
         fortunes.add(new Fortune("Average day, nothing special. Be sure to take a moment to appreciate the little things in life! Oh but watch out for any woodland critters!"));
@@ -69,18 +68,42 @@ public class FortuneTellerFrame extends JFrame
         fortuneTellerIcon = new ImageIcon("77032-774.png");
         topPanel.add(title);
         topPanel.add(new JLabel(fortuneTellerIcon));
-
     }
 
 
     private void createMiddlePanel()
     {
         middlePanel = new JPanel();
+        display = new JTextArea(15, 25);
+        display.setEditable(false);
+        scroll = new JScrollPane(display);
+        middlePanel.add(scroll);
+        display.setFont(displayFont);
     }
 
     private void createBottomPanel()
     {
         bottomPanel = new JPanel();
+        reading = new JButton("Get Fortune");
+        reading.setFont(buttonFont);
+        exit = new JButton("Exit");
+        exit.setFont(buttonFont);
+        reading.addActionListener(e -> getFortune());
+        exit.addActionListener(e -> System.exit(0));
+        bottomPanel.add(reading);
+        bottomPanel.add(exit);
     }
+
+    Random random = new Random();
+    private void getFortune()
+    {
+        int randomIndex;
+        do {randomIndex = random.nextInt(fortunes.size());
+        } while (randomIndex == lastIndex);
+        lastIndex = randomIndex;
+        display.append(fortunes.get(randomIndex).toString() + "\n");
+    }
+
+
 
 }
