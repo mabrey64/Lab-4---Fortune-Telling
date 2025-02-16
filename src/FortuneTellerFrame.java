@@ -41,25 +41,39 @@ public class FortuneTellerFrame extends JFrame
         mainPanel.add(middlePanel, BorderLayout.CENTER);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         setTitle("Fortune Teller");
-        setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // get screen dimensions
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        int screenHeight = screenSize.height;
+        int screenWidth = screenSize.width;
+
+        // center frame in screen
+
+        setSize(screenWidth / 3, screenHeight / 2);
+        setLocation(screenWidth / 3, screenHeight / 3);
+
+        // sets the frame to be visible and adds the mainPanel to the frame
         setVisible(true);
         add(mainPanel);
 
-        fortunes.add(new Fortune("You'll have great day today! Give a stranger a compliment along the way and your luck with money will improve!"));
-        fortunes.add(new Fortune("Average day, nothing special. Be sure to take a moment to appreciate the little things in life! Oh but watch out for any woodland critters!"));
-        fortunes.add(new Fortune("Not a good day. Be careful with your words and actions today, they may come back to bite you! Be especially careful with your finances!"));
-        fortunes.add(new Fortune("Many troubles are expected today. If you stay inside and avoid any major decisions, you may be able to avoid the worst of it! But if you head outside..."));
-        fortunes.add(new Fortune("Expect many good and bad puns. How you react toward them will decide your fate. But be careful of anyone wearing blue jackets...and hope they don't give you a bad time..."));
+        // loads the fortunes into the ArrayList
+        fortunes.add(new Fortune("You'll have great day today! Give a stranger a compliment and your luck will improve!"));
+        fortunes.add(new Fortune("Average day, nothing special. Be sure to take a moment to appreciate the little things in life!"));
+        fortunes.add(new Fortune("Not a good day. Be careful with your words and actions today, they may come back to bite you!"));
+        fortunes.add(new Fortune("Many troubles are expected today. If you stay inside, you can avoid any problems. But if you head outside..."));
+        fortunes.add(new Fortune("Expect many good and bad puns. How you react toward them will decide your fate."));
         fortunes.add(new Fortune("Love is in the air! But be careful, it may not be the love you're looking for..."));
         fortunes.add(new Fortune("Unpredictable day ahead! Be prepared for anything! And I do mean anything"));
-        fortunes.add(new Fortune("Interesting...your day will be filled with people from all over the world! Be sure to listen to their stories, you may learn something new! That knowledge could lead to better luck!"));
-        fortunes.add(new Fortune("Hope you aren't allergic to animals as you'll be surrounded by them today! But be careful, one of them may be a wolf in sheep's clothing..."));
-        fortunes.add(new Fortune("Not your day. Some ominous clouds are on the horizon. Keep an eye on the storm that's approaching. Weather it, and you'll be more than just motivated for the day..."));
+        fortunes.add(new Fortune("Interesting...your day will be filled with people from all over the world! Be sure to listen to their stories!"));
+        fortunes.add(new Fortune("Hope you aren't allergic to animals as you'll be surrounded by them today!"));
+        fortunes.add(new Fortune("Not your day. Some ominous clouds are on the horizon. Keep an eye on the storm that's approaching..."));
         fortunes.add(new Fortune("Money is coming your way! But be careful and try not to spend it all in one place."));
-        fortunes.add(new Fortune("People donning different masks are expected to cross your path today. You'll either have a day full of laughs, or a day full of terrible fates..."));
+        fortunes.add(new Fortune("People donning different masks are expected to cross your path today. Be wary of who you trust."));
     }
 
+    // creates the top panel with the title and the fortuneteller icon
     private void createTopPanel()
     {
         topPanel = new JPanel();
@@ -70,17 +84,20 @@ public class FortuneTellerFrame extends JFrame
         topPanel.add(new JLabel(fortuneTellerIcon));
     }
 
-
+    // creates the middle panel with the display area
     private void createMiddlePanel()
     {
-        middlePanel = new JPanel();
-        display = new JTextArea(15, 25);
+        middlePanel = new JPanel(new BorderLayout());
+        display = new JTextArea(30, 40);
+        display.setLineWrap(true);
+        display.setWrapStyleWord(true);
         display.setEditable(false);
-        scroll = new JScrollPane(display);
-        middlePanel.add(scroll);
+        scroll = new JScrollPane(display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        middlePanel.add(scroll, BorderLayout.CENTER);
         display.setFont(displayFont);
     }
 
+    // creates the bottom panel with the buttons
     private void createBottomPanel()
     {
         bottomPanel = new JPanel();
@@ -94,6 +111,7 @@ public class FortuneTellerFrame extends JFrame
         bottomPanel.add(exit);
     }
 
+    // generates a random fortune and displays it in the display area using the random object
     Random random = new Random();
     private void getFortune()
     {
